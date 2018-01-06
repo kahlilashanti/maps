@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map App</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Map</h1>
+    <div id="map">
+    </div>
+
+
+    <script type="text/javascript">
+      function initMap(){
+        //map options
+        var options = {
+          zoom: 9,
+          center:{lat:49.2827, lng:-123.1207}
+        }
+
+        //new map
+        var map = new
+        google.maps.Map(document.getElementById('map'), options);
+
+        //listen for click on map
+        google.maps.event.addListener(map, 'click',
+        function(event){
+          //add marker
+          addMarker({coords:event.latlng});
+        });
+
+        /*
+        // new marker
+        var marker = new google.maps.Marker({
+          position: {lat:49.267132, lng:-122.968941},
+          map: map,
+          icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: '<h1>North Burnaby</h1>'
+        })
+
+        marker.addListener('click', function(){
+          infoWindow.open(map, marker);
+        });
+        */
+
+        // array of markers
+        var markers =[
+          {
+            coords:{lat:49.267132, lng:-122.968941},
+            iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            content: '<h1>Vancouver</h1>'
+          },
+          {
+            coords:{lat:50.1113, lng:-120.7862},
+            content: '<h1>Merritt</h1>'
+          },
+          {
+            coords:{lat:49.7016, lng:-123.1558}
+
+          }
+
+        ];
+
+        //loop through markers
+        for(var i = 0; i < markers.length; i++){
+          addMarker(markers[i]);
+        }
+
+        //add marker function
+
+        function addMarker(props){
+          var marker = new google.maps.Marker({
+            position: props.coords,
+            map: map,
+            // icon: props.iconImage
+          });
+
+          //check for custom icon
+          if(props.iconImage){
+            //set icon image
+            marker.setIcon(props.iconImage)
+          }
+
+          // check content
+          if(props.content){
+            var infoWindow = new google.maps.InfoWindow({
+              content: props.content
+            })
+
+            marker.addListener('click', function(){
+              infoWindow.open(map, marker);
+            });
+          }
+        }
+      }
+    </script>
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCcRaqWUUWZiEV28kZbOVjCz1Ro32rtCg&callback=initMap">
+    </script>
+  </body>
+</html>
